@@ -20,6 +20,7 @@ DATABASE_PATH_DST = "path_dst"
 class DB():
     def __init__(self):
         folder = os.listdir("MonografiaDataScience/PreprocessorAPI/StatisticsAPI/database")
+        folder = [elem for elem in folder if elem.split(".")[-1] == "json"]
         if DB_NAME not in folder:
             self.initStateDb()
 
