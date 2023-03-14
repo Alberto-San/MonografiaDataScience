@@ -36,10 +36,6 @@ def filter_outliers(current_class):
 
 logger = logging.getLogger('my_logger')
 
-# path_csv = "/home/daniel/Documents/Cursos/Especializacion/luminance_statistics.csv" #input("Input the path of csv features file: \n")
-# class_field = input("Input the class field that contains the class that a register belongs to: \n")
-# path_field = input("Input the path field that contains the information regarding to the path of the images: \n")
-
 def run_outliers_analisis(path_csv, class_field, path_field):
     logger.debug("Reading Input Table...")
     features_table = pd.read_csv(path_csv)
@@ -54,6 +50,7 @@ def run_outliers_analisis(path_csv, class_field, path_field):
 
     logger.debug("Writing information to local database..")
     # Saving information to current database. This is because the use modules share their status through the database
+    database.writeValueDb(DATABASE_DATAFRAME_PATH_KEY, path_csv)
     database.writeValueDb(DATABASE_FEATURES_KEY, numerical_features)
     database.writeValueDb(DATABASE_CLASS_FIELD_NAME, class_field)
     database.writeValueDb(CLASS, class_field)
