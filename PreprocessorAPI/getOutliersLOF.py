@@ -68,3 +68,9 @@ def run_outliers_analisis(path_csv, class_field, path_field):
     original_data_without_outliers = pd.merge(features_table, table_without_outliers, on=path_field)
     original_data_without_outliers.to_csv("MonografiaDataScience/tmp/filtered_data.csv", index=False)
     print("Data Without Outliers is located at {}".format("MonografiaDataScience/tmp/filtered_data.csv"))
+
+
+# path_color_images = "/home/daniel/Documents/MonografiaDataScience/tmp/color_statistics.csv"
+# class_label = "class"
+# path_label = "image_path"
+# run_outliers_analisis(path_csv=path_color_images, class_field=class_label, path_field=path_label)
