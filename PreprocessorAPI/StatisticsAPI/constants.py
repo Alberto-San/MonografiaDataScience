@@ -1,7 +1,6 @@
-from backend.Storage import * 
+from .backend.Storage import * 
 
 database = DB()
-
 PYTHON_NAME= "python3"
 SERVER_PORT = "server_port"
 SERVER_PASSWORD = "server_password"

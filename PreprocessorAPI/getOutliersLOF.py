@@ -5,10 +5,9 @@ LOF.py
  - ExperimentDataReader.py
 tmp folder
 '''
-from ini import *
 import pandas as pd
-from backend.LOF import LOF
-from constants import *
+from .StatisticsAPI.backend.LOF import LOF
+from .StatisticsAPI.constants import *
 import os
 import matplotlib.pyplot as plt
 import logging

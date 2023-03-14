@@ -1,6 +1,5 @@
 import pandas as pd
-from ini import * 
-from constants import * 
+from ..constants import * 
 
 class ExperimentDataReader():
     def read(self):
