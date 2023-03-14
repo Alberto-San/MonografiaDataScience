@@ -10,7 +10,7 @@ import multiprocessing
 sub_folder = "CROPPED"
 image_extension = "bmp"
 data_extension = "dat"
-dataset_output_path = "/content/sample_data/sipakmed"
+dataset_output_path = "/content/sipakmed"
 size = (220, 220)
 
 categories_content = CervicalCancerContentReader(
@@ -76,4 +76,4 @@ columns = [
     ] + accum_labels
 df = pd.DataFrame(accum_list, columns=columns)
 
-df.to_csv("/tmp/color_statistics.csv", index=False)
+df.to_csv("MonografiaDataScience/tmp/color_statistics.csv", index=False)

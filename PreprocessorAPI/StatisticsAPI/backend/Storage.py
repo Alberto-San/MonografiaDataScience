@@ -9,7 +9,7 @@ DATABASE_CLASS_FIELD_NAME = "class_field"
 DATABASE_PATH_FIELD_NAME = "image_path_field"
 DATABASE_URL_KEY = "server_url"
 DB_NAME = "db.json"
-DB_PATH = "database/{}".format(DB_NAME)
+DB_PATH = "MonografiaDataScience/PreprocessorAPI/StatisticsAPI/database/{}".format(DB_NAME)
 WRITE_MODE = "w"
 READ_MODE = "r"
 DATABASE_FLAG_KEY = "flag"
@@ -19,7 +19,7 @@ DATABASE_PATH_DST = "path_dst"
 
 class DB():
     def __init__(self):
-        folder = os.listdir("database")
+        folder = os.listdir("MonografiaDataScience/PreprocessorAPI/StatisticsAPI/database")
         if DB_NAME not in folder:
             self.initStateDb()
 

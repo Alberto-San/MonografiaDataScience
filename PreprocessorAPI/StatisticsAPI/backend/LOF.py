@@ -16,7 +16,7 @@ class LOF():
     
     def predict_data_once_model(self):
         # https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html
-        clf = load('tmp/lof.joblib') 
+        clf = load('MonografiaDataScience/tmp/lof.joblib') 
         None
 
     def process_data(self, data_numeric_features, k=5):
@@ -30,7 +30,8 @@ class LOF():
         processed_data = lof_processor.fit_predict(data_numeric_features)
         criteria = lof_processor.negative_outlier_factor_
         label = database.readContent(DATABASE_LABEL_KEY)
-        dump(lof_processor, 'tmp/lof_{}.joblib'.format(label)) 
+        dump(lof_processor, 'MonografiaDataScience/tmp/lof_{}.joblib'.format(label)) 
+        print("lof model for label {} was saved to {}".format(label, "MonografiaDataScience/tmp/lof_{}.joblib".format(label)))
         return (processed_data, criteria)
 
     def get_index(self, processed_data, ground_truth, condition="eq"):
