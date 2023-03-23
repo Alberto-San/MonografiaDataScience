@@ -45,6 +45,7 @@ class LOF():
         data_raw = metadata[METADATA_DATA_KEY]
         features = metadata[METADATA_FEATURES_KEY]
         data_numeric_features = data_raw[features]
+        data_numeric_features, pca = self.get_pca(data_numeric_features)
 
         (processed_data, _) = self.process_data(data_numeric_features)
 
@@ -58,10 +59,20 @@ class LOF():
         self.data_outliers[TYPE] = "outlier"
         self.data_typical = data_raw.iloc[stack_index]
         self.data_typical[TYPE] = "normal"
+        return pca
+
+    def get_pca(self, X):
+        label = database.readContent(DATABASE_LABEL_KEY)
+        pca = PCA()
+        Xt = pca.fit_transform(X)
+        columns = ["Component_{}".format(index) for index in range(Xt.shape[1])]
+        Xt_df = pd.DataFrame(Xt, columns=columns)
+        dump(pca, 'MonografiaDataScience/tmp/pca_{}.joblib'.format(label)) 
+        print("lof model for label {} was saved to {}".format(label, "MonografiaDataScience/tmp/lof_{}.joblib".format(label)))
+        return Xt_df, pca
 
     def get_data(self):
-        self.outlier_analysis()
-        pca = PCA()
+        _ = self.outlier_analysis()
         path_field = database.readContent(DATABASE_PATH_FIELD_NAME)
         features = database.readContent(DATABASE_FEATURES_KEY)
         numeric_data = [
@@ -69,9 +80,7 @@ class LOF():
                 self.data_typical[features]
             ]
         X = pd.concat(numeric_data, ignore_index=True)
-        Xt = pca.fit_transform(X)
-        columns = ["Component_{}".format(index) for index in range(Xt.shape[1])]
-        Xt_df = pd.DataFrame(Xt, columns=columns)
+        Xt_df = X
         Xt_df[TYPE] = pd.concat([self.data_outliers[TYPE], self.data_typical[TYPE]], ignore_index=True)
         Xt_df[path_field] = pd.concat([self.data_outliers[path_field], self.data_typical[path_field]], ignore_index=True)
         Xt_df.to_csv(LOF_TMP_DF, index=False)
