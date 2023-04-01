@@ -4,6 +4,11 @@ import pickle
 import paramiko
 import scp
 
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+
 class RemoteClient:
     def __init__(self, hostname, username, password, port):
         self.hostname = hostname
@@ -31,10 +36,28 @@ class RemoteClient:
         scp_client.put(local_path, remote_path)
         scp_client.close()
 
+class Processor():
+    def __init__(self, classifier, name):
+        self.processor = classifier
+        self.name = name
+
 class Classifiers():
+    # attribute classifier, name
     def get_instances(self):
-        dummy_class = ["classifier_{}".format(index) for index in range(2)]
-        return dummy_class
+        logistic_regressor = Processor(LogisticRegression(), "Regresion Logistica")
+        decision_tree = Processor(DecisionTreeClassifier(), "Arbol de Decision")
+        random_forest = Processor(RandomForestClassifier(), "Random Forest")
+        linear_svm = Processor(SVC(kernel="linear"), "SVM kernel lineal")
+        rbf_svm = Processor(SVC(kernel="rbf"), "SVM kernel lineal")
+
+        classifiers = [
+            logistic_regressor,
+            decision_tree,
+            random_forest,
+            linear_svm,
+            rbf_svm
+        ]
+        return classifiers
 
 class Scalers():
     def get_instances(self):
@@ -74,9 +97,10 @@ class MasterJob():
             host_data = nodes_info[node]
             username = host_data["username"]
             password = host_data["password"]
+            port = host_data["port"]
             filename = "./tmp/MasterJob/{}.pickle".format(node)
 
-            remote_client = RemoteClient(node, username, password)
+            remote_client = RemoteClient(node, username, password, port)
             remote_client.copy_file_to_remote(filename, '/home/daniel/repository/')
 
     def send_data_to_nodes(self, partitions, nodes_info):
@@ -159,7 +183,6 @@ class Simulation():
         self.prepare()
         self.start_jobs_in_remote()
 
-
 simulation = Simulation(
     table_path="tmp/color_statistics.csv", # /path/to/input_csv
     features="class	image_path	feature_0	feature_1	feature_2	feature_3	feature_4	feature_5	feature_6	feature_7	feature_8	feature_9	feature_10	feature_11	feature_12	feature_13	feature_14	feature_15	feature_16	feature_17	feature_18	feature_19	feature_20	feature_21".split("	"), # / list of features
@@ -169,7 +192,8 @@ simulation = Simulation(
     nodes_user_password={
         "192.168.80.11": {
             "username":"daniel",
-            "password": "slliskkt09"
+            "password": "slliskkt09",
+            "port": "2022"
         }
     }
 )
