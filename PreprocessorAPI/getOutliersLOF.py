@@ -21,7 +21,6 @@ def get_outliers(current_class):
     fig, ax = outliers_processor.get_plot() # Internally, this saves a dataframe in path tmp/lof.csv
     plt.show()
     cp_command = "cp MonografiaDataScience/tmp/lof.csv MonografiaDataScience/tmp/lof_{}.csv".format(current_class)
-    print("Outliers of {} is located at {}".format(current_class, "MonografiaDataScience/tmp/lof_{}.csv".format(current_class)))
     os.system(cp_command)
 
 def filter_outliers(current_class):
@@ -66,7 +65,6 @@ def run_outliers_analisis(path_csv, class_field, path_field):
     logger.debug("Removing outliers from original table...")
     original_data_without_outliers = pd.merge(features_table, table_without_outliers, on=path_field)
     original_data_without_outliers.to_csv("MonografiaDataScience/tmp/filtered_data.csv", index=False)
-    print("Data Without Outliers is located at {}".format("MonografiaDataScience/tmp/filtered_data.csv"))
 
 
 # path_color_images = "/home/daniel/Documents/MonografiaDataScience/tmp/color_statistics.csv"
